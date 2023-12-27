@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <base href="tex/">
+    <script src="latex.js"></script>
+
+    <link rel="stylesheet" media="all" href="fonts/cmu.css">
+    <link rel="stylesheet" media="all" href="css/base.css">
+    <link rel="stylesheet" media="all" href="css/article.css">
+    <link rel="stylesheet" media="all" href="css/katex.css">
+    <link rel="stylesheet" media="all" href="css/normalize.css">
+
+    <style>
+      .tex { }
+
+      html {
+        background: #FFFFFF;
+        color: #000000;
+        font-family: 'Computer Modern Serif';
+        font-size: 90%;
+        width: calc(100% - 40pt);
+        margin: 0 auto;
+        max-width: 500pt;
+      }
+
+      :root, html, body, .body {
+        overflow-x: hidden;
+      }
+
+      @media print {
+        html {
+          font-size: 83%;
+          width: calc(100% - 166pt);
+          margin-left: 83pt;
+          max-width: none;
+        }
+      }
+
+      @media screen and (prefers-color-scheme: dark) {
+        html {
+          background: #101010;
+          color: #F2F2F2;
+        }
+    }
+
+    </style>
+
+    <script>
+      window.addEventListener('load', function() {
+        var checkForTex = function () {
+          var texBlocks = document.getElementsByClassName('tex');
+          var latexBlocks = document.getElementsByClassName('latex');
+          if (texBlocks[0]) {
+            parse(texBlocks[0].innerHTML);
+            texBlocks[0].parentNode.removeChild(texBlocks[0]);
+          } else if (latexBlocks[0]) {
+            parse(latexBlocks[0]);
+            latexBlocks[0].parentNode.removeChild(latexBlocks[0]);
+          } else {
+            showDocumentation();
+          }
+        }
+
+        var parse = function(text) {
+          var generator = new latexjs.HtmlGenerator({ hyphenate: false });
+          generator = latexjs.parse(text, { generator: generator });
+          document.body.appendChild(generator.domFragment());
+        };
+
+        var showDocumentation = function () {
+          console.log("WWWW");
+          document.body.innerHTML = '<center>Please use a file with a .tex extension</center>'
+        }
+
+        document.body.addEventListener('ia-writer-change', function() {
+          checkForTex();
+        });
+      })
+    </script>
+  </head>
+
+  <body data-document>
+  </body>
+</html>
